@@ -21,7 +21,7 @@ In this project, we build the Transformer model step-by-step, implementing all t
 ```
 Transformers-From-Scratch/
 ├── notebooks/          # Jupyter notebooks for experiments
-├── src/               # Source code implementation
+├── src/               # Source code implementation 
 └── README.md          # This file
 ```
 
