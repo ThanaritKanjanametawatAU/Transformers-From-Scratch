@@ -28,3 +28,9 @@ Transformers-From-Scratch/
 ## Getting Started
 
 Follow along with the tutorial video and implement each component step by step to understand how Transformers work under the hood.
+
+```bash
+conda create -n transformers python=3.10
+conda activate transformers
+pip install -r requirements.txt
+```
