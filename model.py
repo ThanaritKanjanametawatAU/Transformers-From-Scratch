@@ -50,3 +50,16 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
 
 
+class LayerNormalization(nn.Module):
+
+    def __init__(self, eps: float = 10 ** -6):
+        super().__init__()
+        self.eps = eps # Avoid 0 Division
+        self.alpha = nn.Parameter(torch.ones(1))
+        self.bias = nn.Parameter(torch.zeros(1))
+
+    def forward(self, x):
+        mean = x.mean(dim = -1, keepdim=True)
+        std = x.std(dim = -1, keepdim=True)
+        # Originally (std + self.eps) was math.sqrt(std**2 + self.eps), but we use this because it's approximately the same anyway
+        return self.alpha * (x - mean) / (std + self.eps) + self.bias
