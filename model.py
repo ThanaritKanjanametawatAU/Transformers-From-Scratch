@@ -63,3 +63,17 @@ class LayerNormalization(nn.Module):
         std = x.std(dim = -1, keepdim=True)
         # Originally (std + self.eps) was math.sqrt(std**2 + self.eps), but we use this because it's approximately the same anyway
         return self.alpha * (x - mean) / (std + self.eps) + self.bias
+
+class FeedForwardBlock(nn.Module):
+
+    # In Paper d_model = 512 , d_ff = 20048
+    def __init__(self, d_model:int, d_ff:int, dropout:float):
+        super().__init__()
+        self.linear_1 = nn.Linear(d_model, d_ff) # W1 and B1
+        self.dropout = nn.Dropout(dropout)
+        self.linear_2 = nn.Linear(d_ff, d_model) # W2 and B2
+
+    def forward(self, x):
+        # tensor shape for each layer passthrough
+        # (batch, seq_len, d_model) --> (batch, seq_len, d_ff) --> (batch, seq_len, d_model)
+        return self.linear_2(self.dropout(torch.relu(self.linear_1(x))))
