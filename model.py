@@ -26,7 +26,7 @@ class PositionalEncoding(nn.Module):
         self.dropout = nn.Dropout(dropout) # Percentage of Deactivated neurons
 
         # Create a matrix of shape (seq_len, d_model)
-        self.positional_encoding = torch.zeros(seq_len, d_model)
+        positional_encoding = torch.zeros(seq_len, d_model)
 
         # Temp tensor to help Replicate the formula in the paper
         position = torch.arange(seq_len, dtype=torch.float).unsqueeze(1)
@@ -37,11 +37,11 @@ class PositionalEncoding(nn.Module):
         div_term = torch.exp(even_index * -math.log(10000)/d_model)
 
         # Formula from the paper section 3.5
-        self.positional_encoding[:, even_index] += torch.sin(position * div_term)
-        self.positional_encoding[:, odd_index] += torch.cos(position * div_term)
+        positional_encoding[:, even_index] += torch.sin(position * div_term)
+        positional_encoding[:, odd_index] += torch.cos(position * div_term)
 
         # Add a batch dimension (1, seq_len, d_model)
-        self.positional_encoding = positional_encoding.unsqueeze(0)
+        positional_encoding = positional_encoding.unsqueeze(0)
 
         self.register_buffer('positional_encoding', positional_encoding )
 
